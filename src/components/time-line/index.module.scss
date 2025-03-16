@@ -1,0 +1,33 @@
+.timeline_item {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  min-height: 100px;
+}
+
+.dot_container {
+}
+
+.dot_default {
+  width: 20px;
+  height: 20px;
+  border: 10px solid #b5cfff;
+  border-radius: 50%;
+  z-index: 1;
+  background-color: #2973ff;
+}
+
+.line {
+  width: max-content;
+  position: relative;
+  .line_inner {
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    border-left: 4px solid #dddddd;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+  }
+}

@@ -1,0 +1,53 @@
+.title_body {
+  display: flex;
+  align-items: center;
+  .title {
+    font-family: "DingTalk";
+    font-size: 40px;
+  }
+}
+
+.time {
+  margin-block: 6vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+
+  .hms_time {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    font-size: 100px;
+    line-height: 100px;
+    font-family: "Oswald";
+    font-weight: 600;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    // border: 1px solid #666666;
+  }
+
+  .ymd_time {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-family: "Oswald";
+    letter-spacing: 3px;
+    font-weight: 600;
+    font-size: 35px;
+    // border: 1px solid #666666;
+  }
+
+  .zh_time {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 20px;
+    font-weight: 800;
+    font-size: 35px;
+    // border: 1px solid #666666;
+  }
+}

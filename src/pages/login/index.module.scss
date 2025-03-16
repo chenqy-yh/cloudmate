@@ -1,0 +1,69 @@
+.login_body {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  font-family: "PingFang";
+}
+
+.title_body {
+  margin-block: 20vh 10vh;
+  .title_1 {
+    font-family: "DingTalk";
+    font-size: 60px;
+  }
+  .title_2 {
+    color: #888;
+  }
+}
+
+.form_body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inner_input {
+  background-color: #f7f6f9;
+  height: 100px;
+  padding-left: 20px;
+}
+
+.phone {
+  .inner_input {
+    font-size: 35px;
+  }
+}
+
+.password {
+  .inner_input {
+    font-size: 25px;
+  }
+}
+
+.inner_input_placeholder {
+  color: #ccc;
+}
+
+.sign_in {
+  font-size: 40px;
+  background-color: #2973ff;
+  height: 100px;
+  color: white;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0;
+  margin-top: 50px;
+  font-family: "DingTalk";
+  &:active {
+    background-color: #135add;
+  }
+}
+
+.forget_pw {
+  font-size: 30px;
+  color: #888;
+  text-align: center;
+  margin-top: 50px;
+}

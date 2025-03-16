@@ -1,0 +1,43 @@
+.atd_body {
+  margin-bottom: 3vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  .sign_in_type {
+    font-size: 50px;
+    height: 50px;
+    font-weight: 800;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .atd_detail {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  font-family: "PingFang";
+  font-weight: 500;
+
+  .row_icon {
+    width: 35px;
+    height: 35px;
+  }
+  .text {
+    color: #666666;
+    font-weight: 500;
+  }
+}
+
+.atd_miss {
+  font-weight: 800;
+  color: black;
+}

@@ -1,0 +1,89 @@
+.tabbar_body {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  padding-inline: 40px;
+  padding-block: 16px;
+  // background-color: #432fbf;
+  background-color: #2973ff;
+}
+
+.tabbar_item_background {
+  position: absolute;
+  top: 50%;
+  left: 40px;
+  width: 155px;
+  height: 80px;
+  // background-color: #5e4ecb;
+  background-color: #4a89ff;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+
+  &.index_0 {
+    transform: translate(0, -50%);
+  }
+
+  &.index_1 {
+    transform: translate(calc(100% + 20px), -50%);
+  }
+
+  &.index_2 {
+    transform: translate(calc(200% + 40px), -50%);
+  }
+
+  &.index_3 {
+    transform: translate(calc(300% + 60px), -50%);
+  }
+}
+
+.tabbar_item {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 80px;
+  width: 240px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  padding-right: 20px;
+  border-radius: 20px;
+
+  .tabbar_item_icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    transition: all 0.3s ease;
+  }
+
+  .tabbar_item_text {
+    color: white;
+    opacity: 0;
+    transition: all 0.3s ease;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    font-size: 26px;
+    // 使用DingTalk字体
+    font-family: "DingTalk";
+  }
+
+  &.active {
+    .tabbar_item_icon {
+      left: 30%;
+    }
+    .tabbar_item_text {
+      opacity: 1;
+    }
+  }
+}

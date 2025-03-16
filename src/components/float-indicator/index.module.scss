@@ -1,0 +1,27 @@
+.float_indicator_box {
+  display: flex;
+  width: max-content;
+  position: relative;
+  box-sizing: border-box;
+  padding: 10px;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+}
+
+.float_indicator_item {
+  padding: 10px 20px;
+  box-sizing: border-box;
+  z-index: 2;
+  font-size: 30px;
+  font-family: "DingTalk";
+}
+
+.float_indicator_thumb {
+  position: absolute;
+  border: 1px solid #cccccc;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  background-color: white;
+  z-index: 1;
+  border-radius: 10px;
+}

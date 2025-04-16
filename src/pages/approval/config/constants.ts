@@ -1,0 +1,86 @@
+
+export const APPROVAL_PROCESS = {
+  PENDING: 'PENDING',
+  RECEIVED: 'RECEIVED',
+  PROCESSED: 'PROCESSED',
+  INITIATED: 'INITIATED',
+}
+
+export const APPROVAL_TYPE = [
+  "LEAVE",
+  "REIMBURSEMENT",
+  "OVERTIME",
+  "BUSINESS_TRIP",
+]
+
+export const APPROVAL_STATUS = [
+  "PENDING",
+  "APPROVED",
+  "REJECTED",
+  "CANCELED"
+]
+
+export const LEAVE_APPROVAL_TYPE = [
+  "SICK_LEAVE",
+  "ANNUAL_LEAVE",
+  "MARRIAGE_LEAVE",
+  "MATERNITY_LEAVE",
+  "PATERNITY_LEAVE",
+  "FUNERAL_LEAVE",
+  "OTHER_LEAVE"
+]
+
+export const OVERTIME_APPROVAL_TYPE = [
+  "WORKDAY_OVERTIME",
+  "WEEKEND_OVERTIME",
+  "HOLIDAY_OVERTIME"
+]
+
+export const REIMBURSEMENT_APPROVAL_TYPE = [
+  "TRANSPORTATION", // 交通费
+  "MEAL", // 餐费
+  "ACCOMMODATION", // 住宿费
+  "OFFICE_SUPPLIES", // 办公用品费
+  "OTHER" // 其他费用
+]
+
+export const APPROVAL_TYPE_TRANSFER = {
+  LEAVE: '请假',
+  REIMEUBRSEMENT: '报销',
+  OVERTIME: '加班',
+  BUSINESS_TRIP: '出差',
+}
+
+
+
+export const APPROVAL_STATUS_TRANSFER = {
+  PENDING: '待处理',
+  APPROVED: '已通过',
+  REJECTED: '已驳回',
+  CANCELED: '已撤销'
+}
+
+
+export const LEAVE_APPROVAL_TYPE_TRANSFER = {
+  SICK_LEAVE: "病假",
+  ANNUAL_LEAVE: "年假",
+  MARRIAGE_LEAVE: "婚假",
+  MATERNITY_LEAVE: "产假",
+  PATERNITY_LEAVE: "陪产假",
+  FUNERAL_LEAVE: "丧假",
+  OTHER_LEAVE: "其他"
+}
+
+export const OVERTIME_APPROVAL_TYPE_TRANSFER = {
+  WORKDAY_OVERTIME: "工作日加班",
+  WEEKEND_OVERTIME: "周末加班",
+  HOLIDAY_OVERTIME: "节假日加班"
+}
+
+export const REIMBURSEMENT_APPROVAL_TYPE_TRANSFER = {
+  TRANSPORTATION: "交通费",
+  MEAL: "餐费",
+  ACCOMMODATION: "住宿费",
+  OFFICE_SUPPLIES: "办公用品费",
+  OTHER: "其他费用"
+}

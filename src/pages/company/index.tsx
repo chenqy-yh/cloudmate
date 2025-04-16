@@ -1,7 +1,5 @@
-import { useSwipeNavigation } from "@/hooks/swipe-navigation";
-import styles from "./index.module.scss";
-
-import AttendanceView from "./views/attendance";
+import { useSwipeNavigation } from "@/hooks/swipe-navigation"
+import AttendanceView from "./views/attendance"
 
 const CompanyPage: React.FC = () => {
   const { handleTouchEnd, handleTouchStart } = useSwipeNavigation({
@@ -9,17 +7,13 @@ const CompanyPage: React.FC = () => {
       tabbarIndex: 1,
       url: "/group",
     },
-  });
+  })
 
   return (
-    <div
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      className={styles.company_body}
-    >
+    <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       <AttendanceView />
     </div>
-  );
-};
+  )
+}
 
-export default CompanyPage;
+export default CompanyPage

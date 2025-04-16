@@ -1,0 +1,63 @@
+.approval {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 30px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.title {
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  border-bottom: 1px solid #bbbbbb;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 20px;
+  font-size: 32px;
+  align-items: center;
+  color: #656565;
+
+  .label {
+    grid-column: 1/2;
+  }
+  .value {
+    grid-column: 2/3;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+}
+
+.steps {
+  display: flex;
+  align-items: center;
+  .step {
+    display: flex;
+    align-items: center;
+    .approvar {
+      border-radius: 50%;
+    }
+    .line {
+      width: 60px;
+      height: 2px;
+      &.PENDING {
+        background-color: #e0e0e0;
+      }
+      &.APPROVED {
+        background-color: #4caf50;
+      }
+      &.REJECTED {
+        background-color: #f44336;
+      }
+    }
+  }
+}

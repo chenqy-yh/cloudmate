@@ -1,0 +1,7 @@
+.process_tag {
+  padding: 20px;
+  &.active {
+    font-weight: bold;
+    border-bottom: 5px solid black;
+  }
+}

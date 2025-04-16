@@ -1,4 +1,4 @@
-import { setActiveIndex } from "@/store/slice/tabbar";
+import { setActiveIndex } from "@/store/reducers/tabbar";
 import { NavigateFunction } from "react-router-dom";
 
 

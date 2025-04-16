@@ -1,11 +1,30 @@
-.timeline_item {
-  position: relative;
-  display: flex;
-  gap: 20px;
-  min-height: 100px;
-}
+.timeline_body {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0 30px;
 
-.dot_container {
+  .line {
+    grid-column: 1/2;
+    justify-self: center;
+
+    width: max-content;
+    position: relative;
+    .line_inner {
+      position: absolute;
+      width: 1px;
+      height: 100%;
+      border-left: 4px solid #dddddd;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: -1;
+    }
+  }
+
+  .timeline_item_content {
+    grid-column: 2/3;
+    box-sizing: border-box;
+  }
 }
 
 .dot_default {
@@ -15,19 +34,4 @@
   border-radius: 50%;
   z-index: 1;
   background-color: #2973ff;
-}
-
-.line {
-  width: max-content;
-  position: relative;
-  .line_inner {
-    position: absolute;
-    width: 1px;
-    height: 100%;
-    border-left: 4px solid #dddddd;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: -1;
-  }
 }

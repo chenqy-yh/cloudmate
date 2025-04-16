@@ -1,6 +1,29 @@
 import type { UserConfigExport } from "@tarojs/cli";
+import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
+
 export default {
-  mini: {},
+  mini: {
+    webpackChain(chain) {
+      chain.merge({
+        plugin: {
+          install: {
+            plugin: require('terser-webpack-plugin'),
+            args: [
+              {
+                terserOptions: {
+                  compress: true, // 默认使用terser压缩
+                  // mangle: false,
+                  keep_classnames: false, // 不改变class名称
+                  keep_fnames: false, // 不改变函数名称
+                },
+              },
+            ],
+          },
+        },
+      })
+      chain.resolve.plugin("tsconfig-paths").use(TsconfigPathsPlugin);
+    },
+  },
   h5: {
     /**
      * WebpackChain 插件配置

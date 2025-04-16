@@ -4,7 +4,7 @@ import devConfig from "./dev";
 import prodConfig from "./prod";
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
-export default defineConfig(async (merge, { command, mode }) => {
+export default defineConfig(async (merge, { }) => {
   const baseConfig: UserConfigExport = {
     projectName: "cloudmate",
     date: "2025-2-26",
@@ -19,16 +19,6 @@ export default defineConfig(async (merge, { command, mode }) => {
     outputRoot: "dist",
     plugins: ["@tarojs/plugin-html"],
     defineConstants: {},
-    copy: {
-      // 将src/assets下的文件复制到dist目录下
-      patterns: [
-        {
-          from: "src/assets",
-          to: "dist/assets",
-        },
-      ],
-      options: {},
-    },
     framework: "react",
     compiler: "webpack5",
     cache: {

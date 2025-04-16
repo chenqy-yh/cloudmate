@@ -1,10 +1,13 @@
-import { useSwipeNavigation } from "@/hooks/swipe-navigation";
-import styles from "./index.module.scss";
-import GroupHeader from "./components/header";
-import Contacts from "./components/contacts";
-import SearchBar from "./components/search-bar";
+import { useSwipeNavigation } from "@/hooks/swipe-navigation"
+import CommonLayout from "@/layout/common"
+import { useState } from "react"
+import Contacts from "./components/contacts"
+import Tools from "./components/tools"
+import GroupContext from "./context"
 
 const GroupPage = () => {
+  const [searchKey, setSearchKey] = useState("")
+
   const { handleTouchEnd, handleTouchStart } = useSwipeNavigation({
     leftSwipeConfig: {
       tabbarIndex: 0,
@@ -14,19 +17,21 @@ const GroupPage = () => {
       tabbarIndex: 2,
       url: "/file",
     },
-  });
+  })
 
   return (
-    <div
-      className={styles.group_page_body}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
+    <GroupContext.Provider
+      value={{
+        searchKey,
+        setSearchKey,
+      }}
     >
-      <GroupHeader />
-      <SearchBar />
-      <Contacts />
-    </div>
-  );
-};
+      <CommonLayout title="团队" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+        <Tools />
+        <Contacts />
+      </CommonLayout>
+    </GroupContext.Provider>
+  )
+}
 
-export default GroupPage;
+export default GroupPage

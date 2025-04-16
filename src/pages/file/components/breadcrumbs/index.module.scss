@@ -1,0 +1,23 @@
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  width: 100%;
+  // 自动换行
+  flex-wrap: wrap;
+}
+
+.breadcrumb_item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.folder {
+  font-size: 30px;
+  line-height: 30px;
+  font-family: "DingTalk";
+  color: #4b4b4b;
+}

@@ -52,10 +52,10 @@ const TimelineItem: TimelineItem = ({
 }) => {
   return (
     <TimelineItemContext.Provider value={{ dotEl, last }}>
-      <div className={styles.timeline_item}>
+      <>
         <Line />
-        {children}
-      </div>
+        <div className={styles.timeline_item_content}>{children}</div>
+      </>
     </TimelineItemContext.Provider>
   );
 };

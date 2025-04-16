@@ -1,0 +1,24 @@
+.button_wrapper {
+  font-size: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  padding: 10px 20px;
+  width: max-content;
+  box-sizing: border-box;
+
+  &.long {
+    width: 100%;
+  }
+  &.primary {
+    background-color: #2973ff;
+    color: white;
+  }
+
+  &.danger {
+    background-color: #ff4d4f;
+    color: white;
+  }
+}

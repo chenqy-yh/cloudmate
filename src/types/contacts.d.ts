@@ -1,0 +1,4 @@
+type ContactsState = {
+  contacts: UserInfo[];
+}
+

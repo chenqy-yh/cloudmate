@@ -8,11 +8,7 @@ function App({ children }: PropsWithChildren<any>) {
   useLaunch(() => {
     loadFonts();
   });
-  return (
-    <Provider store={store}>
-     {children}
-    </Provider>
-  );
+  return <Provider store={store}>{children}</Provider>;
 }
 
 const loadFonts = () => {
@@ -25,8 +21,8 @@ const loadFonts = () => {
     "Oswald"
   );
   loadFont(
-    "https://cloudmate-1300131488.cos.ap-beijing.myqcloud.com/pingfang.ttf",
-    "PingFang"
+    "https://cloudmate-1300131488.cos.ap-beijing.myqcloud.com/puhui.ttf",
+    "puhui"
   );
 };
 

@@ -1,5 +1,9 @@
-import { useSwipeNavigation } from "@/hooks/swipe-navigation";
-import styles from "./index.module.scss";
+import { useSwipeNavigation } from "@/hooks/swipe-navigation"
+import CommonLayout from "@/layout/common"
+import { Route, Routes } from "react-router-dom"
+import styles from "./index.module.scss"
+import MainContent from "./views/main-content"
+import SearchFile from "./views/search-file"
 
 const FilePage = () => {
   const { handleTouchEnd, handleTouchStart } = useSwipeNavigation({
@@ -11,17 +15,16 @@ const FilePage = () => {
       tabbarIndex: 3,
       url: "/profile",
     },
-  });
+  })
 
   return (
-    <div
-      className={styles.file_page_body}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-    >
-      File Page
-    </div>
-  );
-};
+    <CommonLayout title="共享" className={styles.file_page_body} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+      <Routes>
+        <Route path="/" element={<MainContent />} />
+        <Route path="/search" element={<SearchFile />} />
+      </Routes>
+    </CommonLayout>
+  )
+}
 
-export default FilePage;
+export default FilePage

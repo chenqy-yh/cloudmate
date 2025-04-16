@@ -1,0 +1,57 @@
+.date_body {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-top: 20px;
+
+  .weeks {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    position: sticky;
+    top: 0;
+    align-items: center;
+    justify-items: center;
+    background-color: #f0f0f0;
+    color: #aaaaaa;
+    padding-block: 10px;
+  }
+
+  .month_info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: #aaaaaa;
+    .month_title {
+      padding-left: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #cccccc;
+    }
+
+    .days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      align-items: center;
+      justify-items: center;
+      gap: 20px 0px;
+
+      .day {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.has_record {
+          color: #000;
+          font-weight: bold;
+        }
+        &.today {
+          color: #fff;
+          background-color: #2973ff;
+          border-radius: 9999px;
+        }
+      }
+    }
+  }
+}

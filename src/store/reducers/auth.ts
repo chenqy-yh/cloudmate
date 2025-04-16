@@ -19,7 +19,7 @@ const setStateAndStorage = (state: InitialState, key: keyof InitialState, value:
 }
 
 
-export const authSlice = createSlice({
+export const auth_slice = createSlice({
   name: "auth",
   initialState,
   reducers: {
@@ -28,7 +28,12 @@ export const authSlice = createSlice({
         setStateAndStorage(state, key as keyof InitialState, value);
       })
     },
+    resetAuth: (state) => {
+      Object.keys(state).forEach(key => {
+        setStateAndStorage(state, key as keyof InitialState, "");
+      })
+    }
   }
 })
 
-export const { setAuthData } = authSlice.actions;
+export const { setAuthData, resetAuth } = auth_slice.actions;

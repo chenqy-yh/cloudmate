@@ -18,7 +18,7 @@ type Arguments = {
 };
 
 export const useSwipeNavigation = (args: Arguments) => {
-  const { leftSwipeConfig, rightSwipeConfig, swipeThreshold = 100 } = args;
+  const { leftSwipeConfig, rightSwipeConfig, swipeThreshold = 70 } = args;
 
   const startPosRef = useRef(0);
   const dispatch = useDispatch<AppDispatch>();

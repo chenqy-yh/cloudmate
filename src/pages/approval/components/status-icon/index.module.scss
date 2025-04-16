@@ -1,0 +1,14 @@
+.icon_wrapper {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &.APPROVED {
+    background-color: #4caf50;
+  }
+  &.REJECTED {
+    background-color: #f44336;
+  }
+}

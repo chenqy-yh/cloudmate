@@ -1,46 +1,54 @@
-import { AuthGuard } from "@/components/auth";
-import { useSwitchTab } from "@/hooks/switch-tab";
-import { createClient } from "@/socket";
-import Taro from "@tarojs/taro";
-import { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Tabbar from "../../components/tab-bar";
-import CompanyPage from "../company";
-import FilePage from "../file";
-import GroupPage from "../group";
-import LoginPage from "../login";
-import ProfilePage from "../profile";
-import styles from "./index.module.scss";
+import { AuthGuard } from "@/components/auth"
+import { useSystemInit } from "@/hooks/system-init"
+import { Suspense } from "react"
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom"
+import Tabbar from "../../components/tab-bar"
+import Approval from "../approval"
+import ChatPage from "../chat"
+import CompanyPage from "../company"
+import FilePage from "../file"
+import GroupPage from "../group"
+import LoginPage from "../login"
+import ProfilePage from "../profile"
+import styles from "./index.module.scss"
+
+const LoadingFallback = () => {
+  return <div className={styles.loading_fallback}>Loading...</div>
+}
 
 const MainLayout = () => {
-  const { switchTab } = useSwitchTab();
+  const location = useLocation()
+  const hide_tabbar_routes = ["/chat", "/approval"]
+  const should_show_tabbar = !hide_tabbar_routes.some((route) => location.pathname.includes(route))
 
-  const [a] = useState(0);
+  useSystemInit()
 
-  // // useEffect(() => {
-  // //   switchTab(1);
-  // // }, [a]);
+  // -------- test code --------
+
+  // const navigate = useNavigate();
 
   // useEffect(() => {
-  //   const client = createClient(Taro.getStorageSync("Authorization"));
-  //   client.connect();
-  //   return () => {
-  //     client.disconnect();
-  //   };
-  // }, []);
+  //   navigate(
+  //     "/approval/detail?code=202504065704217231020833&ap_type=REIMEUBRSEMENT"
+  //   );
+  // }, [navigate]);
 
   return (
     <div className={styles.index_page_body}>
-      <Routes>
-        <Route path="/" element={<CompanyPage />} />
-        <Route path="/group" element={<GroupPage />} />
-        <Route path="/file" element={<FilePage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-      </Routes>
-      <Tabbar />
+      <Suspense fallback={<LoadingFallback />}>
+        <Routes>
+          <Route path="/" element={<CompanyPage />} />
+          <Route path="/approval/*" element={<Approval />} />
+          <Route path="/group" element={<GroupPage />} />
+          <Route path="/file/*" element={<FilePage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/chat/*" element={<ChatPage />} />
+        </Routes>
+      </Suspense>
+      {should_show_tabbar && <Tabbar />}
     </div>
-  );
-};
+  )
+}
 
 export default function Index() {
   return (
@@ -57,5 +65,5 @@ export default function Index() {
         />
       </Routes>
     </BrowserRouter>
-  );
+  )
 }

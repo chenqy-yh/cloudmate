@@ -1,0 +1,31 @@
+.approval_item {
+  color: #cccccc;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background-color: white;
+
+  .title {
+    display: flex;
+    font-weight: bold;
+    font-size: 32px;
+    color: black;
+    gap: 10px;
+  }
+
+  .status {
+    &.APPROVED {
+      color: #4caf50;
+    }
+    &.REJECTED {
+      color: #f44336;
+    }
+    &.PENDING {
+      color: #ff9800;
+    }
+    &.CANCELED {
+      color: #9e9e9e;
+    }
+  }
+}

@@ -1,0 +1,47 @@
+.chat_composer {
+  // position: fixed;
+  // left: 0;
+  // right: 0;
+  // bottom: 0;
+  width: 100%;
+  border-top: 1px solid #cccccc;
+  display: grid;
+  grid-template-columns: 1fr max-content max-content;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #f8f8f8;
+  .inner_input {
+    padding-block: 10px;
+    padding-inline: 20px;
+    background-color: white;
+    border-radius: 10px;
+    transition: height 0.2s;
+  }
+
+  .chat_actions {
+    min-height: 100%;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding-left: 20px;
+    .action_item {
+      font-size: 30px;
+      font-family: "DingTalk";
+    }
+  }
+}
+
+.send_button {
+  white-space: nowrap;
+  border: none;
+  color: white;
+  background-color: #2973ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  border-radius: 10px;
+  padding-inline: 10px;
+  margin-left: 10px;
+  font-family: "DingTalk";
+}

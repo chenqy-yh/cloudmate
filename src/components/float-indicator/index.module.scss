@@ -19,9 +19,9 @@
 .float_indicator_thumb {
   position: absolute;
   border: 1px solid #cccccc;
-  transition: all 0.3s ease;
   box-sizing: border-box;
   background-color: white;
   z-index: 1;
   border-radius: 10px;
+  transition: all 0.2s ease-in-out;
 }

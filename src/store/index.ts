@@ -1,19 +1,27 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { tabbarSlice } from "./reducers/tabbar";
-import { userStateSlice } from './reducers/user-state'
-import { authSlice } from "./reducers/auth";
-import { attendanceSlice } from './reducers/attandence'
+import {
+  auth_slice,
+  chat_slice,
+  file_slice,
+  user_slice,
+  tabbar_slice,
+  contacts_slice,
+  attendance_slice,
+} from './reducers'
 
 const store = configureStore({
   reducer: {
-    tabbar: tabbarSlice.reducer,
-    userState: userStateSlice.reducer,
-    auth: authSlice.reducer,
-    attendance: attendanceSlice.reducer,
+    user: user_slice.reducer,
+    auth: auth_slice.reducer,
+    file: file_slice.reducer,
+    chat: chat_slice.reducer,
+    tabbar: tabbar_slice.reducer,
+    contacts: contacts_slice.reducer,
+    attendance: attendance_slice.reducer,
   },
 });
 
-export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
 
 export default store;

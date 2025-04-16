@@ -25,7 +25,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
     if (jwt_token && unique_device_token && user_uuid) return;
 
     const storedAuthData = {
-      Authorization: Taro.getStorageSync("token"),
+      Authorization: Taro.getStorageSync("Authorization"),
       "x-unique-device-token": Taro.getStorageSync("x-unique-device-token"),
       "x-user-uuid": Taro.getStorageSync("x-user-uuid"),
     };

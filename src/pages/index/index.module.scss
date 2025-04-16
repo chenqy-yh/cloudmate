@@ -1,6 +1,7 @@
-.index_page_body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.index_page_body,
+.loading_fallback {
+  flex: 1;
+  position: relative;
+  font-family: "puhui";
   height: 100vh;
 }

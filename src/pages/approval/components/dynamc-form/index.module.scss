@@ -1,0 +1,55 @@
+.dynamic-form {
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  font-family: "DingTalk";
+  font-size: 40px;
+  height: 100%;
+}
+
+.form {
+  flex: 1;
+  background-color: #f0f0f0;
+}
+
+.row {
+  margin-block: 20px;
+  background-color: white;
+  padding: 20px;
+}
+
+.space {
+  height: 20vh;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+
+  .btn {
+    font-size: 40px;
+    background-color: #2973ff;
+    height: 100px;
+    color: white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    font-family: "DingTalk";
+  }
+}

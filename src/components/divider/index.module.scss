@@ -1,0 +1,12 @@
+.divider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-block: 20px;
+  gap: 20px;
+  .line {
+    flex: 1;
+    height: 1px;
+    background: #c4c4c4;
+  }
+}

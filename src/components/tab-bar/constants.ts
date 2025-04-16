@@ -20,8 +20,8 @@ export const tabbar_item_config: TabbarItemConfig[] = [
   {
     id: 0,
     icon: {
-      default: "../../assets/icon/company.svg",
-      active: "../../assets/icon/company-active.svg",
+      default: "company",
+      active: "company-active",
     },
     path: "/",
     text: "公司",
@@ -29,8 +29,8 @@ export const tabbar_item_config: TabbarItemConfig[] = [
   {
     id: 1,
     icon: {
-      default: "../../assets/icon/group.svg",
-      active: "../../assets/icon/group-active.svg",
+      default: "group",
+      active: "group-active",
     },
     path: "/group",
     text: "团队",
@@ -38,8 +38,8 @@ export const tabbar_item_config: TabbarItemConfig[] = [
   {
     id: 2,
     icon: {
-      default: "../../assets/icon/folder.svg",
-      active: "../../assets/icon/folder-active.svg",
+      default: "folder",
+      active: "folder-active",
     },
     path: "/file",
     text: "共享",
@@ -47,8 +47,8 @@ export const tabbar_item_config: TabbarItemConfig[] = [
   {
     id: 3,
     icon: {
-      default: "../../assets/icon/user.svg",
-      active: "../../assets/icon/user-active.svg",
+      default: "user",
+      active: "user-active",
     },
     path: "/profile",
     text: "我的",

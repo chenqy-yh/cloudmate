@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useLayoutEffect, useRef, useState } from "react";
 import styles from "./index.module.scss";
 
 type OptionItemValue = string | number;
@@ -30,14 +30,17 @@ const FloatIndicator: React.FC<FloatIndicatorProps> = ({
   const container = useRef<HTMLDivElement>(null);
 
   const [rawValue, setRawValue] = useState(value ?? options[0]);
+  const [first_render, setFirstRender] = useState(true);
 
   const [cur_thumb_height, setCurThumbHeight] = useState(0);
   const [cur_thumb_width, setCurThumbWidth] = useState(0);
   const [cur_thumb_left, setCurThumbLeft] = useState(0);
 
-  const activeIndex = options.findIndex((item) => item === rawValue);
+  const activeIndex = options.findIndex(
+    (item) => item.value === rawValue.value
+  );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const query = Taro.createSelectorQuery()
       .selectAll(`.${sc("box")}, .${sc("item")}`)
       .boundingClientRect();
@@ -48,6 +51,7 @@ const FloatIndicator: React.FC<FloatIndicatorProps> = ({
       setCurThumbHeight(rect_list[activeIndex].height);
       setCurThumbLeft(rect_list[activeIndex].left - box_rect.left);
       setCurThumbWidth(rect_list[activeIndex].width);
+      setFirstRender(false);
     });
   }, [item_ref_list, activeIndex]);
 
@@ -55,7 +59,6 @@ const FloatIndicator: React.FC<FloatIndicatorProps> = ({
     setRawValue(item);
     onChange?.({ value: item });
   };
-
   return (
     <div className={sc("box")} ref={container}>
       {options.map((item, index) => (
@@ -70,14 +73,16 @@ const FloatIndicator: React.FC<FloatIndicatorProps> = ({
           {item.text}
         </div>
       ))}
-      <div
-        className={sc("thumb")}
-        style={{
-          height: `${cur_thumb_height}px`,
-          width: `${cur_thumb_width}px`,
-          left: `${cur_thumb_left}px`,
-        }}
-      />
+      {first_render ? null : (
+        <div
+          className={sc("thumb")}
+          style={{
+            height: `${cur_thumb_height}px`,
+            width: `${cur_thumb_width}px`,
+            left: `${cur_thumb_left}px`,
+          }}
+        />
+      )}
     </div>
   );
 };

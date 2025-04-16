@@ -1,64 +1,53 @@
-import { signIn } from "@/apis/auth";
-import Loader from "@/components/loading";
-import { AppDispatch } from "@/store";
-import { setAuthData } from "@/store/reducers/auth";
-import { Button, Input } from "@tarojs/components";
-import Taro from "@tarojs/taro";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
-import styles from "./index.module.scss";
-
-const socket = io("ws://127.0.0.1:3000", {
-  autoConnect: false,
-});
+import { signIn } from "@/apis/auth"
+import { POST_SUCCESS } from "@/apis/constants"
+import Loader from "@/components/loading/icon"
+import { AppDispatch } from "@/store"
+import { setAuthData } from "@/store/reducers/auth"
+import { error } from "@/utils/common"
+import { Button, Input } from "@tarojs/components"
+import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import styles from "./index.module.scss"
 
 const LoginPage = () => {
-  useEffect(() => {});
-
-  const [signInLoading, setSignInLoading] = useState(false);
+  const [signInLoading, setSignInLoading] = useState(false)
   const [credentials, setCredentials] = useState({
     phone: "13344445555",
     password: "yinhan",
-  });
+  })
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>()
 
   const handleInputChange = (field: "phone" | "password") => (e) => {
-    setCredentials((prev) => ({ ...prev, [field]: e.detail.value }));
-  };
+    setCredentials((prev) => ({ ...prev, [field]: e.detail.value }))
+  }
 
   const handleSignIn = async () => {
-    setSignInLoading(true);
+    setSignInLoading(true)
     try {
-      const { statusCode, data, errMsg } = await signIn(
-        credentials.phone,
-        credentials.password
-      );
-
-      if (statusCode === 201) {
+      const { statusCode, data, errMsg } = await signIn(credentials.phone, credentials.password)
+      if (statusCode === POST_SUCCESS) {
         dispatch(
           setAuthData({
             Authorization: `Bearer ${data.access_token}`,
             "x-unique-device-token": data["x-unique-device-token"],
             "x-user-uuid": data["x-user-uuid"],
           })
-        );
-        navigate("/");
+        )
+        navigate("/")
       } else {
-        Taro.showToast({
-          title: statusCode === 401 ? "用户名或密码错误" : "网络异常",
-          icon: "error",
-          duration: 2000,
-        });
-        console.error(errMsg);
+        error(statusCode === 401 ? "用户名或密码错误" : "网络异常")
+        console.error(errMsg)
       }
+    } catch (err) {
+      error("登录失败")
+      console.log(err)
     } finally {
-      setSignInLoading(false);
+      setSignInLoading(false)
     }
-  };
+  }
 
   return (
     <div className={styles.login_body}>
@@ -89,17 +78,12 @@ const LoginPage = () => {
           />
         </div>
       </div>
-      <Button
-        className={styles.sign_in}
-        hoverClass={styles.sign_in_active}
-        onClick={handleSignIn}
-        disabled={signInLoading}
-      >
-        {signInLoading ? <Loader /> : "登录"}
+      <Button className={styles.sign_in} hoverClass={styles.sign_in_active} onClick={handleSignIn} disabled={signInLoading}>
+        {signInLoading ? <Loader version={1} /> : "登录"}
       </Button>
       <div className={styles.forget_pw}>忘记密码</div>
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

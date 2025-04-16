@@ -8,7 +8,7 @@ const initialState: TabbarState = {
   activeIndex: 0,
 };
 
-export const tabbarSlice = createSlice({
+export const tabbar_slice = createSlice({
   name: "tabbar",
   initialState,
   reducers: {
@@ -18,4 +18,4 @@ export const tabbarSlice = createSlice({
   },
 });
 
-export const { setActiveIndex } = tabbarSlice.actions;
+export const { setActiveIndex } = tabbar_slice.actions;

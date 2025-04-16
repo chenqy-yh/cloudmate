@@ -1,7 +1,31 @@
 .profile_page_body {
   width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   height: 100vh;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding-inline: 20px;
+  font-family: "DingTalk";
+  font-size: 40px;
+  height: 100%;
+}
+
+.main_content {
+  margin-top: 40px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding-inline: 20px;
+  margin-top: 60px;
+}
+
+.actions {
+  margin-top: 60px;
 }

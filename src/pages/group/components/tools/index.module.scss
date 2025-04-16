@@ -1,0 +1,25 @@
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-inline: 20px;
+  margin-top: 40px;
+}
+
+.context_menu {
+  border-radius: 20px;
+  background-color: white;
+  min-width: 240px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  flex-direction: column;
+
+  .operate_item {
+    border-bottom: 1px solid #cccccc;
+    white-space: nowrap;
+    padding: 20px 40px;
+    &:not(:last-child) {
+      border-bottom: 1px solid #cccccc;
+    }
+  }
+}

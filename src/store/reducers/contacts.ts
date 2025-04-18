@@ -4,12 +4,14 @@ type ContactsState = {
   contacts: UserInfo[];
   contact_history: Record<string, PrivateMessageItem[]>
   current_contact?: UserInfo
+  contact_history_loaded_record: Record<string, boolean>
 }
 
 
 const initialState: ContactsState = {
   contacts: [],
   contact_history: {},
+  contact_history_loaded_record: {},
 }
 
 const uniqueMessages = (messages: PrivateMessageItem[]) => {
@@ -37,21 +39,18 @@ export const contacts_slice = createSlice({
     setContacts: (state, action) => {
       state.contacts = action.payload;
     },
-    pushContactHistory: (state, action) => {
-      const { contact_uuid, messages } = action.payload;
+    loadContactHistory: (state, aciton) => {
+      const { contact_uuid, messages } = aciton.payload;
+      if (state.contact_history_loaded_record[contact_uuid]) return;
       if (!state.contact_history[contact_uuid]) {
         state.contact_history[contact_uuid] = [];
+        state.contact_history_loaded_record[contact_uuid] = true;
       }
-      // const new_messages = [...state.contact_history[contact_uuid], ...messages];
-      // 按照msg._id去除
-      // const unique_messages = uniqueMessages(new_messages);
-      // 按照时间戳排序
-      // const sorted_messages = sortMessages(unique_messages);
-      // state.contact_history[contact_uuid] = sorted_messages;
-      state.contact_history[contact_uuid].push(...messages);
+      state.contact_history[contact_uuid].unshift(...messages);
     },
     addMessageToContactHistory: (state, action) => {
       const { contact_uuid, message } = action.payload;
+      if (state.contact_history_loaded_record[contact_uuid] === undefined) return // 没有加载过历史消息
       if (!state.contact_history[contact_uuid]) {
         state.contact_history[contact_uuid] = [];
       }
@@ -64,8 +63,8 @@ export const contacts_slice = createSlice({
 })
 
 export const {
+  loadContactHistory,
   setContacts,
   setCurrentContact,
-  pushContactHistory,
   addMessageToContactHistory,
 } = contacts_slice.actions;

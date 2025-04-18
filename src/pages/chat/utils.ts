@@ -12,3 +12,5 @@ export const createPrivateMessageItem =
       topic: `chat:private:${sender}:${receiver}`,
     } as PrivateMessageItem;
   }
+
+export const genMsgId = (index: number) => `msg_${index}`; // 生成消息的id

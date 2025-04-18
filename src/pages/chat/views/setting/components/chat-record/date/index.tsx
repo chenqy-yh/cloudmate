@@ -1,11 +1,13 @@
 import { getPrivateContactTimeRange } from "@/apis/contacts"
-import { chatReceiverSelector } from "@/store/selectors/chat"
+import { ChatContext } from "@/pages/chat/context"
+import { genMsgId } from "@/pages/chat/utils"
+import { selectContactHistory, selectCurrentContact } from "@/store/selectors/contacts"
 import { DayInfo, MonthInfo, getMonthInfo } from "@/utils/date"
 import classNames from "classnames"
 import { useContext, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import { SettingViews } from "../../.."
-import { ChatSettingContext } from "../../../context"
 import styles from "./index.module.scss"
 
 type Year = number
@@ -38,10 +40,14 @@ const getMonthInfoList = (options: { st: { year: number; month: number }; ed: { 
 }
 
 const FindChatRecordByDate = () => {
-  const { setTitle } = useContext(ChatSettingContext)
-  const receiver_info = useSelector(chatReceiverSelector)
+  const { setFocusMsgId, setShowDrawer } = useContext(ChatContext)
+
+  const navigate = useNavigate()
+
+  const receiver_info = useSelector(selectCurrentContact)!
   const [month_info_list, setMonthInfoList] = useState<MonthInfo[]>([])
   const [timestamp_record, setTimestampRecord] = useState<TimestampRecord>({})
+  const messages = useSelector(selectContactHistory(receiver_info.uuid))
 
   const hasRecord = (day: DayInfo) => {
     const { year, month } = day
@@ -58,10 +64,6 @@ const FindChatRecordByDate = () => {
     const today = new Date()
     return day.year === today.getFullYear() && day.month === today.getMonth() + 1 && day.day === today.getDate()
   }
-
-  useEffect(() => {
-    setTitle(SettingViews.FIND_CHAT_RECORD_DATE)
-  }, [setTitle])
 
   // 获取时间范围
   useEffect(() => {
@@ -102,6 +104,22 @@ const FindChatRecordByDate = () => {
     fetchTimeRange()
   }, [receiver_info.uuid])
 
+  const handleFindChatHistoryByDate = (day: DayInfo) => {
+    const { year, month, day: d } = day
+    const timestamp = new Date(year, month - 1, d).getTime()
+    // 在messages中查询日期最早大于timestamp的消息
+    const tar_msg_index = messages.findIndex((msg) => {
+      const msg_timestamp = new Date(msg.timestamp).getTime()
+      return msg_timestamp > timestamp
+    })
+
+    if (tar_msg_index !== -1) {
+      navigate("/chat")
+      setShowDrawer(false)
+      setFocusMsgId(genMsgId(tar_msg_index))
+    }
+  }
+
   return (
     <div className={styles.date_body}>
       <div className={styles.weeks}>
@@ -126,6 +144,7 @@ const FindChatRecordByDate = () => {
                       [styles.has_record]: hasRecord(day),
                       [styles.today]: isToday(day),
                     })}
+                    onClick={() => hasRecord(day) && handleFindChatHistoryByDate(day)}
                   >
                     {isCurrentMonth(month_info, day) ? day.day : ""}
                   </div>

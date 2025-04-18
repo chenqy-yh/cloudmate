@@ -1,7 +1,6 @@
 import List from "@/components/list"
 import CommonLayout from "@/layout/common"
-import { useContext, useEffect, useState } from "react"
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
+import { useContext, useState } from "react"
 import { ChatContext } from "../../context"
 import FindChatRecordByDate from "./components/chat-record/date"
 import FindChatRecordByKeywords from "./components/chat-record/keywords"
@@ -16,15 +15,11 @@ export const enum SettingViews {
 }
 
 const FindChatRecord = () => {
-  const { setTitle } = useContext(ChatSettingContext)
-  const navigate = useNavigate()
+  const { addHistory, setActiveView } = useContext(ChatSettingContext)
 
-  useEffect(() => {
-    setTitle(SettingViews.FIND_CHAT_RECORD)
-  }, [setTitle])
-
-  const navigateToFindChatRecordDetail = (sub: string) => {
-    navigate(`/chat/setting/find-chat-record/${sub}`)
+  const navigateToFindChatRecordDetail = (view: SettingViews) => {
+    addHistory(SettingViews.FIND_CHAT_RECORD)
+    setActiveView(view)
   }
 
   return (
@@ -32,10 +27,10 @@ const FindChatRecord = () => {
       <div className={styles.filters}>
         <div className={styles.filters__title}>按分类查找</div>
         <div className={styles.filters__options}>
-          <div className={styles.filters__option} onClick={() => navigateToFindChatRecordDetail("date")}>
+          <div className={styles.filters__option} onClick={() => navigateToFindChatRecordDetail(SettingViews.FIND_CHAT_RECORD_DATE)}>
             日期
           </div>
-          <div className={styles.filters__option} onClick={() => navigateToFindChatRecordDetail("keywords")}>
+          <div className={styles.filters__option} onClick={() => navigateToFindChatRecordDetail(SettingViews.FIND_CHAT_RECORD_KEYWORD)}>
             关键字
           </div>
         </div>
@@ -45,15 +40,12 @@ const FindChatRecord = () => {
 }
 
 const MainView = () => {
-  const { setTitle } = useContext(ChatSettingContext)
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    setTitle(SettingViews.MAIN)
-  }, [setTitle])
+  const { setActiveView, addHistory } = useContext(ChatSettingContext)
+  const {} = useContext(ChatContext)
 
   const navigateToFindChatRecord = () => {
-    navigate("/chat/setting/find-chat-record")
+    addHistory(SettingViews.MAIN)
+    setActiveView(SettingViews.FIND_CHAT_RECORD)
   }
 
   return (
@@ -65,31 +57,49 @@ const MainView = () => {
 
 const ChatSetting = () => {
   const { setShowDrawer } = useContext(ChatContext)
-  const [title, setTitle] = useState(SettingViews.MAIN)
-  const navigate = useNavigate()
-  const location = useLocation()
+  const [active_view, setActiveView] = useState(SettingViews.MAIN)
+  const [history, setHistory] = useState<SettingViews[]>([])
 
   const handleBack = () => {
-    const { pathname } = location
-    navigate(-1)
-    if (pathname === "/chat/setting") {
+    if (history.length > 0) {
+      const back_view = history.pop()
+      setActiveView(back_view!)
+    } else {
       setShowDrawer(false)
+    }
+  }
+
+  const addHistory = (setting_view: SettingViews) => {
+    setHistory((prev) => {
+      const new_history = [...prev]
+      new_history.push(setting_view)
+      return new_history
+    })
+  }
+
+  const renderActiveView = () => {
+    switch (active_view) {
+      case SettingViews.FIND_CHAT_RECORD:
+        return <FindChatRecord />
+      case SettingViews.FIND_CHAT_RECORD_DATE:
+        return <FindChatRecordByDate />
+      case SettingViews.FIND_CHAT_RECORD_KEYWORD:
+        return <FindChatRecordByKeywords />
+      case SettingViews.MAIN:
+      default:
+        return <MainView />
     }
   }
 
   return (
     <ChatSettingContext.Provider
       value={{
-        setTitle,
+        setActiveView,
+        addHistory,
       }}
     >
-      <CommonLayout title={title} back onBack={handleBack}>
-        <Routes>
-          <Route path="/setting" element={<MainView />} />
-          <Route path="/setting/find-chat-record" element={<FindChatRecord />} />
-          <Route path="/setting/find-chat-record/date" element={<FindChatRecordByDate />} />
-          <Route path="/setting/find-chat-record/keywords" element={<FindChatRecordByKeywords />} />
-        </Routes>
+      <CommonLayout title={active_view} back onBack={handleBack}>
+        {renderActiveView()}
       </CommonLayout>
     </ChatSettingContext.Provider>
   )

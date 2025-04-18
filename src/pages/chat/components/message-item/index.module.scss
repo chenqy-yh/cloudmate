@@ -41,13 +41,14 @@
 .message_item_content {
   padding: 10px;
   border-radius: 20px;
-  max-width: 80vw;
+  max-width: 60vw;
   border: 1px solid #cccccc;
   background-color: #f1f1f1;
+  word-break: break-all;
 
   &.image {
     padding: 0;
     max-width: 60vw;
-    max-height: 80vh;
+    max-height: 60vw;
   }
 }

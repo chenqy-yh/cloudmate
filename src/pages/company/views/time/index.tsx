@@ -1,4 +1,4 @@
-import { useTime } from "@/hooks/time";
+import { useTime } from "@/hooks/useTime";
 import styles from "./index.module.scss";
 
 const Time = () => {

@@ -1,8 +1,11 @@
 import { getPrivateContactTimeRange } from "@/apis/contacts"
-import { ChatContext } from "@/pages/chat/context"
+import { chatReceiverSelector } from "@/store/selectors/chat"
 import { DayInfo, MonthInfo, getMonthInfo } from "@/utils/date"
 import classNames from "classnames"
 import { useContext, useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import { SettingViews } from "../../.."
+import { ChatSettingContext } from "../../../context"
 import styles from "./index.module.scss"
 
 type Year = number
@@ -35,7 +38,8 @@ const getMonthInfoList = (options: { st: { year: number; month: number }; ed: { 
 }
 
 const FindChatRecordByDate = () => {
-  const { receiver_info } = useContext(ChatContext)
+  const { setTitle } = useContext(ChatSettingContext)
+  const receiver_info = useSelector(chatReceiverSelector)
   const [month_info_list, setMonthInfoList] = useState<MonthInfo[]>([])
   const [timestamp_record, setTimestampRecord] = useState<TimestampRecord>({})
 
@@ -54,6 +58,10 @@ const FindChatRecordByDate = () => {
     const today = new Date()
     return day.year === today.getFullYear() && day.month === today.getMonth() + 1 && day.day === today.getDate()
   }
+
+  useEffect(() => {
+    setTitle(SettingViews.FIND_CHAT_RECORD_DATE)
+  }, [setTitle])
 
   // 获取时间范围
   useEffect(() => {

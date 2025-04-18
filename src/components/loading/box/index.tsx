@@ -12,7 +12,7 @@ type LoadingBoxProps = {
 const LoadingBox: React.FC<LoadingBoxProps> = (props) => {
   const { children, load, className, ...rest } = props
 
-  const loader = props.loader ? props.loader : <Loader />
+  const loader = props.loader ? props.loader : <Loader version={2} />
 
   const cls = classNames(styles.loading_box, className)
 

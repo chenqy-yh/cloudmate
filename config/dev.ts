@@ -7,9 +7,6 @@ export default {
     stats: true
   },
   mini: {
-    optimizeMainPackage: {
-      enable: true,
-    },
     webpackChain(chain) {
       chain.merge({
         plugin: {

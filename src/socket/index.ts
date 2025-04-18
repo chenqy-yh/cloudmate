@@ -99,25 +99,13 @@ export class WebsocketClient {
     }
   }
 
-  getPrivateMessages(options: {
-    sender: string, receiver: string,
-    callback?: () => void;
-  }) {
-    const message_get = this.createMessageItem("GetPrivateMessages", {
-      sender: options.sender,
-      receiver: options.receiver,
-    });
-    Client.sendMessage(message_get);
-
-    options.callback?.();
-  }
 
   sendPrivateMessage(options: {
     type: MessageType, content: MessageContentMap, sender: string, receiver: string,
     callback?: () => void
   }) {
     const { type, content, sender, receiver } = options;
-    const messageItem = this.createMessageItem("SendPrivateMessage", {
+    const messageItem = this.createMessageItem("send_message", {
       sender: sender,
       receiver: receiver,
       content,
@@ -145,7 +133,7 @@ export class WebsocketClient {
 
 export const Client = WebsocketClient.getInstance();
 
-export const registerPrivateMessasge = (event: EventType, callback: WSMessageHandler) => {
+export const registerEventHandler = (event: EventType, callback: WSMessageHandler) => {
   Client.registerHandler(event, callback);
 }
 

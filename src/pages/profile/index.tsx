@@ -1,4 +1,4 @@
-import { useSwipeNavigation } from "@/hooks/swipe-navigation"
+import { useSwipeNavigation } from "@/hooks/useSwipeNavigation"
 import CommonLayout from "@/layout/common"
 import Feature from "./components/featrue"
 import UserDetail from "./components/user-detail"

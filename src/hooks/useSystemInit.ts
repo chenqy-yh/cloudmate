@@ -1,8 +1,8 @@
 import { getContacts } from "@/apis/contacts";
 import { getUserInfo } from "@/apis/user";
-import { Client } from "@/socket";
+import { Client, registerEventHandler } from "@/socket";
+import { addMessageToContactHistory, setContacts } from '@/store/reducers/contacts';
 import { setUserInfo } from '@/store/reducers/user';
-import { setContacts } from '@/store/reducers/contacts'
 import { error } from "@/utils/common";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -12,15 +12,29 @@ export const useSystemInit = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    registerEventHandler("message", handleReceiveMessage)
+    return () => {
+      Client.unregisterHandler("message", handleReceiveMessage)
+    }
+  }, [])
+
+
+  const handleReceiveMessage = (message: PrivateMessageItem) => {
+    const { sender } = message;
+    dispatch(addMessageToContactHistory({ message, contact_uuid: sender }))
+  }
+
+  useEffect(() => {
     const init = () => {
       Client.connect()
-      init_userInfo();
-      init_contacts();
+      initUserInfo();
+      initContacts();
     }
     init();
   }, []);
 
-  const init_userInfo = async () => {
+
+  const initUserInfo = async () => {
     try {
       const res = await getUserInfo();
       dispatch(setUserInfo(res.data));
@@ -30,7 +44,7 @@ export const useSystemInit = () => {
     }
   }
 
-  const init_contacts = async () => {
+  const initContacts = async () => {
     try {
       const res = await getContacts();
       dispatch(setContacts(res.data));
@@ -39,5 +53,6 @@ export const useSystemInit = () => {
       console.error(err);
     }
   }
+
 
 }

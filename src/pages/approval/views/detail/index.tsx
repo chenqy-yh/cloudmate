@@ -13,8 +13,8 @@ import { useNavigate } from "react-router-dom"
 import { APPROVAL_STATUS_TRANSFER } from "../../config/constants"
 import ApprovalContext from "../../context"
 import Flow from "./components/flow"
-import { useApprovalActions } from "./hooks/use-approval-actions"
-import { useApprovalDetail } from "./hooks/use-approval-detail"
+import { useApprovalActions } from "./hooks/useApprovalActions"
+import { useApprovalDetail } from "./hooks/useApprovalDetail"
 import styles from "./index.module.scss"
 
 type ApprovalDetailItemProps = {

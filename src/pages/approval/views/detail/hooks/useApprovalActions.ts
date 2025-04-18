@@ -1,9 +1,11 @@
 import { approve, reject } from "@/apis/approval"
 import { GenerateResult } from "@/pages/approval/config/detail"
+import { createPrivateMessageItem } from "@/pages/chat/utils"
 import { Client } from "@/socket"
+import { addMessageToContactHistory } from "@/store/reducers/contacts"
 import { userInfoSelector } from "@/store/selectors/user"
 import { error, success } from "@/utils/common"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 export const useApprovalActions = (options: {
   ap_code: string,
@@ -13,7 +15,9 @@ export const useApprovalActions = (options: {
 }) => {
   const { ap_code, ap_type, generated_detail, onAction } = options
 
-  const user_info = useSelector(userInfoSelector)
+  const dispatch = useDispatch();
+
+  const user_info = useSelector(userInfoSelector)!
 
 
   const notifyNext = (options: {
@@ -23,20 +27,31 @@ export const useApprovalActions = (options: {
     sender: string
   }) => {
     const { notify_type, action, receiver, sender } = options
-    Client.sendPrivateMessage({
-      content: {
-        notification: {
-          type: notify_type,
-          payload: {
-            action,
-            type: ap_type,
-            code: ap_code,
-          },
+    const content = {
+      notification: {
+        type: notify_type,
+        payload: {
+          action,
+          type: ap_type,
+          code: ap_code,
         },
       },
-      receiver,
+    };
+    const type = "notification"
+
+    Client.sendPrivateMessage({
+      type,
       sender,
-      type: "notification",
+      content,
+      receiver,
+      callback:()=>{
+        dispatch(
+          addMessageToContactHistory({
+            message: createPrivateMessageItem(user_info.uuid, receiver, content, type),
+            contact_uuid: receiver,
+          })
+        )
+      }
     })
   }
 

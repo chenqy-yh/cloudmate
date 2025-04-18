@@ -13,6 +13,10 @@
   padding-bottom: 20px;
   position: relative;
 
+  .loader {
+    margin-left: 20px;
+  }
+
   .chat_header_title {
     position: absolute;
     left: 50%;
@@ -35,10 +39,11 @@
 .msg_list {
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow-y: scroll;
   flex: 1;
   width: 100vw;
   box-sizing: border-box;
+  overflow-anchor: auto;
 
   .msg_item_wrapper {
     width: 100%;

@@ -3,11 +3,11 @@ import { error } from "@/utils/common"
 import { Image } from "@tarojs/components"
 import Taro from "@tarojs/taro"
 import classNames from "classnames"
-import React from "react"
-import ApprovalInitMessage from "./components/approval/init"
-import styles from "./index.module.scss"
-import ApprovalNextMessage from "./components/approval/next"
+import React, { useEffect, useState } from "react"
 import ApprovalDoneMessage from "./components/approval/done"
+import ApprovalInitMessage from "./components/approval/init"
+import ApprovalNextMessage from "./components/approval/next"
+import styles from "./index.module.scss"
 
 type MessageItemProps<T extends MessageType> = {
   from_me: boolean
@@ -76,6 +76,7 @@ function MessageItemContent<T extends MessageType>({ type, content }: MessageIte
 
 function MessageItem<T extends MessageType>({ from_me, content, type, user_info }: MessageItemProps<T>) {
   const messageItemClass = classNames(
+    "test",
     {
       [styles[from_me ? "sender_message" : "receiver_message"]]: true,
     },

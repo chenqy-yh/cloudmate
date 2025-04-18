@@ -1,11 +1,24 @@
 
 type WSMessageHandler = (...args) => unknown;
 
-type EventType = 'SendPrivateMessage' | 'GetPrivateMessages'
+type EventType = 'send_message' | 'message'
 
 type MessageType = 'text' | 'image' | 'notification'
 
 type NotifyType = 'approval:init' | 'approval:next' | 'approval:done'
+
+type QueryOptions = {
+  direction: 'forward' | 'backward';
+  after_msg_id?: string;
+  before_msg_id?: string;
+  date?: {
+    year: number;
+    month: number;
+    day: number;
+  };
+  limit?: number;
+  page?: number;
+}
 
 type MessageContentMap = {
   text?: string;
@@ -25,6 +38,7 @@ type MessagePayload<T extends MessageType = MessageType> = {
 }
 
 type PrivateMessageItem<T extends MessageType = MessageType> = {
+  _id: string;
   type: T;
   content: MessageContentMap;
   from_me: boolean;

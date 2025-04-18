@@ -1,22 +1,28 @@
 import { uploadImage } from "@/apis/chat"
 import Icon from "@/components/icon"
 import { Client } from "@/socket"
+import { addMessageToContactHistory } from "@/store/reducers/contacts"
+import { selectCurrentContact } from "@/store/selectors/contacts"
+import { userInfoSelector } from "@/store/selectors/user"
 import { withProtocol } from "@/utils/common"
 import { CommonEventFunction, Input, InputProps, TextareaProps } from "@tarojs/components"
 import Taro from "@tarojs/taro"
-import { useCallback, useContext, useEffect, useRef, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { ChatContext } from "../../context"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { createPrivateMessageItem } from "../../utils"
 import styles from "./index.module.scss"
 
-const ChatComposer = () => {
+type ChatComposerProps = {}
+
+const ChatComposer: React.FC<ChatComposerProps> = (props) => {
+  const sender_info = useSelector(userInfoSelector)!
+  const receiver_info = useSelector(selectCurrentContact)!
+  const dispatch = useDispatch()
+
   const [inputVal, setInputVal] = useState("")
   const [showActions, setShowActions] = useState(false)
   const [bottom, setBottom] = useState(20)
   const inputRef = useRef<InputProps>()
-
-  const { receiver_info, sender_info, setMessages, scrollMsgListToBottom } = useContext(ChatContext)
 
   useEffect(() => {
     const handleKeyboardChange = (res) => setBottom(res.height)
@@ -34,12 +40,16 @@ const ChatComposer = () => {
         type,
         content,
         callback: () => {
-          setMessages((prev) => [...prev, createPrivateMessageItem(sender_info.uuid, receiver_info.uuid, content, type)])
-          scrollMsgListToBottom()
+          dispatch(
+            addMessageToContactHistory({
+              message: createPrivateMessageItem(sender_info.uuid, receiver_info.uuid, content, type),
+              contact_uuid: receiver_info.uuid,
+            })
+          )
         },
       })
     },
-    [receiver_info.uuid, scrollMsgListToBottom, sender_info.uuid, setMessages]
+    [dispatch, receiver_info.uuid, sender_info.uuid]
   )
 
   const handleSendMessage = useCallback(() => {

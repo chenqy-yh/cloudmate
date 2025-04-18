@@ -28,3 +28,23 @@ export const uploadImage = (url: string): Promise<UploadFileResult> => {
     })
   })
 }
+
+export const loadHistory = async (options: {
+  receiver: string;
+  limit?: number
+  anchor_msg_id?: string;
+}): Promise<PrivateMessageItem[]> => {
+  const { receiver, anchor_msg_id, limit = 20 } = options
+  const res = await http.post(`/chat/history/private/${receiver}`, {
+    query: {
+      limit,
+      anchor_msg_id,
+    }
+  });
+  switch (res.statusCode) {
+    case POST_SUCCESS:
+      return res.data;
+    default:
+      throw makeErrorMsg("获取历史消息失败", res.data);
+  }
+}

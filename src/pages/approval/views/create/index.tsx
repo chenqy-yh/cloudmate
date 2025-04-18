@@ -1,9 +1,11 @@
 import { createApproval } from "@/apis/approval"
+import { createPrivateMessageItem } from "@/pages/chat/utils"
 import { Client } from "@/socket"
+import { addMessageToContactHistory } from "@/store/reducers/contacts"
 import { userInfoSelector } from "@/store/selectors/user"
 import { error, success } from "@/utils/common"
 import { useMemo } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Route, Routes, useNavigate } from "react-router-dom"
 import DynamicForm, { FormConfig, FormState } from "../../components/dynamc-form"
 import { approval_form_config_map } from "../../config/create"
@@ -18,8 +20,9 @@ type CreateApprovalRouteConfig = {
 
 const CreateApproval: React.FC = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  const user_info = useSelector(userInfoSelector)
+  const user_info = useSelector(userInfoSelector)!
 
   const { routes_config } = useMemo(() => {
     const routes_config: CreateApprovalRouteConfig[] = [
@@ -57,16 +60,27 @@ const CreateApproval: React.FC = () => {
       type: ApprovalType
     }
   ) => {
-    Client.sendPrivateMessage({
-      content: {
-        notification: {
-          type: "approval:init",
-          payload: message_content,
-        },
+    const content = {
+      notification: {
+        type: "approval:init" as NotifyType,
+        payload: message_content,
       },
-      receiver: receiver,
+    }
+    const type = "notification" as MessageType
+
+    Client.sendPrivateMessage({
+      type,
+      content,
       sender: sender,
-      type: "notification",
+      receiver: receiver,
+      callback: () => {
+        dispatch(
+          addMessageToContactHistory({
+            message: createPrivateMessageItem(user_info.uuid, receiver, content, type),
+            contact_uuid: receiver,
+          })
+        )
+      },
     })
   }
 

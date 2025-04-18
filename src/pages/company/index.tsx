@@ -1,4 +1,4 @@
-import { useSwipeNavigation } from "@/hooks/swipe-navigation"
+import { useSwipeNavigation } from "@/hooks/useSwipeNavigation"
 import AttendanceView from "./views/attendance"
 
 const CompanyPage: React.FC = () => {

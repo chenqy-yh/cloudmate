@@ -1,4 +1,4 @@
-import { useSwipeNavigation } from "@/hooks/swipe-navigation"
+import { useSwipeNavigation } from "@/hooks/useSwipeNavigation"
 import CommonLayout from "@/layout/common"
 import { Route, Routes } from "react-router-dom"
 import styles from "./index.module.scss"

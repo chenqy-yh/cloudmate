@@ -1,5 +1,5 @@
 import { AuthGuard } from "@/components/auth"
-import { useSystemInit } from "@/hooks/system-init"
+import { useSystemInit } from "@/hooks/useSystemInit"
 import { Suspense } from "react"
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom"
 import Tabbar from "../../components/tab-bar"
@@ -23,25 +23,15 @@ const MainLayout = () => {
 
   useSystemInit()
 
-  // -------- test code --------
-
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   navigate(
-  //     "/approval/detail?code=202504065704217231020833&ap_type=REIMEUBRSEMENT"
-  //   );
-  // }, [navigate]);
-
   return (
     <div className={styles.index_page_body}>
       <Suspense fallback={<LoadingFallback />}>
         <Routes>
           <Route path="/" element={<CompanyPage />} />
-          <Route path="/approval/*" element={<Approval />} />
           <Route path="/group" element={<GroupPage />} />
           <Route path="/file/*" element={<FilePage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/approval/*" element={<Approval />} />
           <Route path="/chat/*" element={<ChatPage />} />
         </Routes>
       </Suspense>

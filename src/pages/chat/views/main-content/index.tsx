@@ -1,22 +1,23 @@
+import { loadHistory } from "@/apis/chat"
 import Header from "@/components/header"
 import Icon from "@/components/icon"
+import Loader from "@/components/loading/icon"
+import { useLoadRequest } from "@/hooks/useLoadRequest"
+import { RootState } from "@/store"
+import { pushContactHistory } from "@/store/reducers/contacts"
+import { selectContactHistory, selectCurrentContact } from "@/store/selectors/contacts"
+import { userInfoSelector } from "@/store/selectors/user"
 import { getFormattedDate } from "@/utils/date"
 import { ScrollView } from "@tarojs/components"
 import classNames from "classnames"
-import React, { useContext } from "react"
+import { useContext, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import ChatComposer from "../../components/chat-composer"
 import MessageItem from "../../components/message-item"
 import { ChatContext } from "../../context"
+import { useAutoScrollToBottom } from "../../hooks/useAutoScrollToButtom"
 import styles from "./index.module.scss"
-
-type MessageListProps = {
-  messages: PrivateMessageItem[]
-  sender: UserInfo
-  receiver: UserInfo
-}
-
-const genMsgId = (index: number) => `msg_${index}`
 
 // 根据 timestamp  2025-04-13T13:00:26.531+00:00 获取 时间戳
 const getTimestamp = (timestamp: string) => {
@@ -27,35 +28,16 @@ const getTimestamp = (timestamp: string) => {
 const DIFF_TIME = 5 * 60 * 1000 // 5分钟
 const DATE_FORMAT = "MM-DD HH:mm:ss"
 
-const MessageList: React.FC<MessageListProps> = (props) => {
-  const { messages, sender, receiver } = props
-  return messages.map((msg, index) => {
-    const pre_msg_ct = getTimestamp(messages[index - 1]?.timestamp) || 0
-    const cur_msg_ct = getTimestamp(msg.timestamp)
-    const diff = cur_msg_ct - pre_msg_ct
-    return (
-      <>
-        {diff > DIFF_TIME && (
-          <div key={`divider_${index}`} className={styles.msg_item_time}>
-            {getFormattedDate(msg.timestamp, DATE_FORMAT)}
-          </div>
-        )}
-        <div
-          id={genMsgId(index)}
-          key={index}
-          className={classNames(styles.msg_item_wrapper, {
-            [styles[msg.from_me ? "sender" : "receiver"]]: true,
-          })}
-        >
-          <MessageItem from_me={msg.from_me} type={msg.type} content={msg.content} user_info={msg.from_me ? sender : receiver} />
-        </div>
-      </>
-    )
-  })
-}
+function MainContent() {
+  const { setShowDrawer } = useContext(ChatContext)
+  const dispatch = useDispatch()
+  const sender_info = useSelector(userInfoSelector)!
+  const receiver_info = useSelector(selectCurrentContact)!
+  const messages = useSelector((state: RootState) => selectContactHistory(state, receiver_info.uuid))
 
-const MainContent = () => {
-  const { messages, receiver_info, scroll_anim, scroll_into_view, sender_info, setShowDrawer } = useContext(ChatContext)
+  const { load, send } = useLoadRequest()
+
+  const { scrollIntoView, scrollWithAnimation } = useAutoScrollToBottom(messages)
 
   const navigate = useNavigate()
 
@@ -64,7 +46,50 @@ const MainContent = () => {
   }
 
   const handleOpenSetting = () => {
+    navigate("/chat/setting")
     setShowDrawer(true)
+  }
+
+  useEffect(() => {
+    const has_load_history = Array.isArray(messages)
+    if (has_load_history) return
+    send({
+      requestFn: () =>
+        loadHistory({
+          receiver: receiver_info.uuid,
+          limit: 20,
+        }),
+      success: (messages) => {
+        dispatch(pushContactHistory({ messages, contact_uuid: receiver_info.uuid }))
+      },
+    })
+  }, [messages])
+
+  const renderMessageList = () => {
+    if (!Array.isArray(messages)) return <Loader version={2} />
+    return messages.map((msg, index) => {
+      const pre_msg_ct = getTimestamp(messages[index - 1]?.timestamp) || 0
+      const cur_msg_ct = getTimestamp(msg.timestamp)
+      const diff = Math.abs(pre_msg_ct - cur_msg_ct)
+      return (
+        <>
+          {diff > DIFF_TIME && (
+            <div key={`divider_${index}`} className={styles.msg_item_time}>
+              {getFormattedDate(msg.timestamp, DATE_FORMAT)}
+            </div>
+          )}
+          <div
+            key={msg._id}
+            id={`msg_${msg._id}`}
+            className={classNames(styles.msg_item_wrapper, {
+              [styles[msg.from_me ? "sender" : "receiver"]]: true,
+            })}
+          >
+            <MessageItem from_me={msg.from_me} type={msg.type} content={msg.content} user_info={msg.from_me ? sender_info : receiver_info} />
+          </div>
+        </>
+      )
+    })
   }
 
   return (
@@ -73,20 +98,13 @@ const MainContent = () => {
         <div className={styles.chat_header}>
           <Icon icon="back" size={30} onClick={handleBack} />
           <Icon icon="more-2" size={30} onClick={handleOpenSetting} />
-
+          {load && <Loader version={2} size={30} className={styles.loader} />}
           <div className={styles.chat_header_title}>{receiver_info.name}</div>
         </div>
       </Header>
       <div className={styles.chat_content}>
-        <ScrollView
-          scrollY
-          scrollWithAnimation={scroll_anim}
-          scrollIntoViewWithinExtent
-          scrollAnimationDuration="300"
-          scrollIntoView={scroll_into_view}
-          className={styles.msg_list}
-        >
-          <MessageList messages={messages} receiver={receiver_info} sender={sender_info} />
+        <ScrollView scrollY className={styles.msg_list} scrollIntoView={scrollIntoView} scrollWithAnimation={scrollWithAnimation} scrollAnimationDuration="300">
+          {renderMessageList()}
         </ScrollView>
         <ChatComposer />
       </div>

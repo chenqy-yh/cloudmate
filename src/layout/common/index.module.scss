@@ -8,9 +8,8 @@
 .header {
   font-size: 40px;
   box-sizing: border-box;
-  display: grid;
+  display: flex;
   padding-left: 20px;
-  grid-template-columns: max-content 1fr;
   align-items: center;
 
   &.back {
@@ -20,6 +19,11 @@
   .title {
     grid-column: 2/3;
     font-family: "DingTalk";
+    &.center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 import Avatar from "@/components/avatar"
 import Icon from "@/components/icon"
 import SearchBar from "@/components/search"
-import { useDebounce } from "@/hooks/useDebounce"
+import useDebounce from "@/hooks/useDebounce"
 import { ChatContext } from "@/pages/chat/context"
 import { genMsgId } from "@/pages/chat/utils"
 import { contacts_selector, selectContactHistory, selectCurrentContact } from "@/store/selectors/contacts"
@@ -25,7 +25,15 @@ const FindChatRecordByKeywords = () => {
   const [keywords, setKeywords] = useState("")
   const [search_messages, setSearchMessages] = useState<PrivateMessageItem[]>([])
 
-  const debounced_keywords = useDebounce(keywords, 300)
+  const [debounced_keywords] = useDebounce(keywords, 300)
+
+  const sortMessageByDate = (messages: PrivateMessageItem[]) => {
+    return messages.sort((a, b) => {
+      const a_timestamp = new Date(a.timestamp).getTime()
+      const b_timestamp = new Date(b.timestamp).getTime()
+      return b_timestamp - a_timestamp
+    })
+  }
 
   useEffect(() => {
     if (!debounced_keywords) {
@@ -34,7 +42,7 @@ const FindChatRecordByKeywords = () => {
     const search_messages = messages.filter((msg) => {
       return msg.type === "text" && msg.content.text!.includes(debounced_keywords)
     })
-    setSearchMessages(search_messages)
+    setSearchMessages(sortMessageByDate(search_messages))
   }, [debounced_keywords, messages])
 
   const handleFindChatHistoryByKeywords = (tar_msg: PrivateMessageItem) => {
@@ -43,7 +51,6 @@ const FindChatRecordByKeywords = () => {
       return msg.timestamp === tar_msg.timestamp
     })
 
-    console.log("tar_msg_index", tar_msg_index, messages)
     if (tar_msg_index !== -1) {
       navigate("/chat")
       setShowDrawer(false)

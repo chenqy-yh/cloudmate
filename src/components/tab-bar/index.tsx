@@ -1,13 +1,12 @@
 import { AppDispatch } from "@/store"
 import { setActiveIndex as innerSetActiveIndex } from "@/store/reducers/tabbar"
 import { activeIndexSelector } from "@/store/selectors/tabbar"
-import { Image } from "@tarojs/components"
 import cls from "classnames"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import Icon from "../icon"
 import { TabbarItemProps, tabbar_item_config } from "./constants"
 import styles from "./index.module.scss"
-import Icon from "../icon"
 
 const TabbarItem: React.FC<TabbarItemProps> = ({ id, icon, text, path, active, setActiveIndex, navigate }) => {
   const tabbarItemCls = cls(

@@ -1,0 +1,29 @@
+.text {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  box-sizing: border-box;
+  padding-block: 10px;
+
+  .star {
+    justify-self: center;
+    color: red;
+  }
+
+  .text_bar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 32px;
+    position: relative;
+    padding-right: 10px;
+
+    .inner_input {
+      width: 100%;
+    }
+
+    .placeholder {
+      font-size: 32px;
+      color: #cccccc;
+    }
+  }
+}

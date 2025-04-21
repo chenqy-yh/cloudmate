@@ -4,7 +4,7 @@ import { LEAVE_APPROVAL_TYPE, OVERTIME_APPROVAL_TYPE, REIMBURSEMENT_APPROVAL_TYP
 
 const type_validtator = (types) => Yup.string().oneOf(types).required('请填写请假类型');
 
-const reason_validator = Yup.string().min(8, "理由长度不少于8").required('请假理由格式异常');
+const reason_validator = Yup.string().min(8, "理由长度不少于8").required('理由格式异常');
 
 const start_time_validtator = Yup.string().required('请填写开始时间');
 

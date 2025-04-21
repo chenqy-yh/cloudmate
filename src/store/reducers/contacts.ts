@@ -5,6 +5,7 @@ type ContactsState = {
   contact_history: Record<string, PrivateMessageItem[]>
   current_contact?: UserInfo
   contact_history_loaded_record: Record<string, boolean>
+  unread_count: Record<string, number>;
 }
 
 
@@ -12,24 +13,7 @@ const initialState: ContactsState = {
   contacts: [],
   contact_history: {},
   contact_history_loaded_record: {},
-}
-
-const uniqueMessages = (messages: PrivateMessageItem[]) => {
-  const uniqueMap = new Map<string, PrivateMessageItem>();
-  messages.forEach((msg) => {
-    if (!uniqueMap.has(msg._id)) {
-      uniqueMap.set(msg._id, msg);
-    }
-  });
-  return Array.from(uniqueMap.values());
-}
-
-const sortMessages = (messages: PrivateMessageItem[]) => {
-  return messages.sort((a, b) => {
-    const dateA = new Date(a.timestamp);
-    const dateB = new Date(b.timestamp);
-    return dateB.getTime() - dateA.getTime();
-  });
+  unread_count: {}
 }
 
 export const contacts_slice = createSlice({
@@ -49,6 +33,7 @@ export const contacts_slice = createSlice({
       state.contact_history[contact_uuid].unshift(...messages);
     },
     addMessageToContactHistory: (state, action) => {
+      console.log('addMessageToContactHistory')
       const { contact_uuid, message } = action.payload;
       if (state.contact_history_loaded_record[contact_uuid] === undefined) return // 没有加载过历史消息
       if (!state.contact_history[contact_uuid]) {
@@ -56,9 +41,28 @@ export const contacts_slice = createSlice({
       }
       state.contact_history[contact_uuid].push(message);
     },
+    addUnreadCount: (state, action) => {
+      const { contact_id } = action.payload;
+      if (state.unread_count[contact_id] === undefined) {
+        state.unread_count[contact_id] = 0;
+      }
+      state.unread_count[contact_id] += 1
+    },
     setCurrentContact: (state, action) => {
       state.current_contact = action.payload;
     },
+    setUnreadCount: (state, action) => {
+      const { unread_count } = action.payload;
+      state.unread_count = Object.keys(unread_count).reduce((acc, key) => {
+        acc[key] = typeof unread_count[key] === 'string' ? parseInt(unread_count[key]) : unread_count[key]
+        return acc
+      }, {})
+    },
+    clearUnreadCount: (state, action) => {
+      const { contact_id } = action.payload;
+      if (state.unread_count[contact_id] === undefined) return;
+      state.unread_count[contact_id] = 0;
+    }
   },
 })
 
@@ -67,4 +71,7 @@ export const {
   setContacts,
   setCurrentContact,
   addMessageToContactHistory,
+  addUnreadCount,
+  setUnreadCount,
+  clearUnreadCount,
 } = contacts_slice.actions;

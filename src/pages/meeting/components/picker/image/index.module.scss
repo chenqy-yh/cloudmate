@@ -1,0 +1,17 @@
+.image_picker {
+  display: grid;
+  grid-template-columns: 30px 1fr 30px;
+  box-sizing: border-box;
+  padding-block: 10px;
+
+  .star {
+    justify-self: center;
+    color:red;
+  }
+
+  .image_picker_bar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}

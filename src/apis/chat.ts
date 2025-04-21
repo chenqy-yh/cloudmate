@@ -1,7 +1,7 @@
 import { base_ip, port } from '@/constants/http';
 import { makeErrorMsg } from '@/utils/error';
 import Taro from '@tarojs/taro';
-import { POST_SUCCESS } from './constants';
+import { GET_SUCCESS, POST_SUCCESS } from './constants';
 import http from './request';
 
 export const uploadImage = (url: string): Promise<UploadFileResult> => {
@@ -46,5 +46,15 @@ export const loadHistory = async (options: {
       return res.data;
     default:
       throw makeErrorMsg("获取历史消息失败", res.data);
+  }
+}
+
+export const getUnreadCount = async () => {
+  const res = await http.get('/chat/unread/count')
+  switch (res.statusCode) {
+    case GET_SUCCESS:
+      return res.data;
+    default:
+      throw makeErrorMsg("获取未读消息数量失败", res.data);
   }
 }

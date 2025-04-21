@@ -53,3 +53,19 @@
     text-overflow: ellipsis;
   }
 }
+
+.unread {
+  background: red;
+  color: #fff;
+  border-radius: 9999px;
+  height: 40px;
+  max-height: 40px;
+  min-width: 40px;
+  padding-inline: 10px;
+  font-size: 20px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}

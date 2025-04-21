@@ -1,4 +1,4 @@
-import ActionSheet from "@/components/action-sheet"
+import InnerPicker from "@/components/picker/common"
 import { useCallback, useState } from "react"
 import Icon from "../../../../../components/icon/common"
 import styles from "./index.module.scss"
@@ -18,25 +18,6 @@ export type PickerProps = {
   placeholder?: string
   onChange?: (value: SelectorItemValue | null) => void
 }
-
-type PickerSelectorProps = {
-  show: boolean
-  selector: SelectorItem[]
-  onClose?: () => void
-  onSelect?: (value: SelectorItemValue) => void
-}
-
-const PickerSelector: React.FC<PickerSelectorProps> = ({ show, selector, onClose, onSelect }) => (
-  <ActionSheet isOpened={show} onClose={onClose}>
-    <div className={styles.list}>
-      {selector.map((item) => (
-        <div key={item.value} className={styles.list_item} onClick={() => onSelect?.(item.value)}>
-          {item.label}
-        </div>
-      ))}
-    </div>
-  </ActionSheet>
-)
 
 const Picker: React.FC<PickerProps> = ({ selector, value = "", title, important = false, placeholder = "请选择", onChange }) => {
   const [showSelector, setShowSelector] = useState(false)
@@ -67,7 +48,7 @@ const Picker: React.FC<PickerProps> = ({ selector, value = "", title, important 
           <Icon icon="arrow-right-2" size={30} className={styles.arrow} />
         </div>
       </div>
-      <PickerSelector show={showSelector} selector={selector} onClose={handleClose} onSelect={handleSelect} />
+      <InnerPicker show={showSelector} selector={selector} onClose={handleClose} onSelect={handleSelect} />
     </>
   )
 }

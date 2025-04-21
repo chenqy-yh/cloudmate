@@ -9,8 +9,9 @@ import { error } from "@/utils/common"
 import { getFormattedDate } from "@/utils/date"
 import Taro from "@tarojs/taro"
 import classNames from "classnames"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 import styles from "./index.module.scss"
+import { MessageItemContext } from "../../../context"
 
 type ApprovalNextMessageProps = {
   type: ApprovalType
@@ -25,6 +26,7 @@ type ApprovalNextMessageProps = {
 const formatApprovalSteps = (steps: ApprovalStep[]) => steps.sort((a, b) => a.step_order - b.step_order)
 
 const ApprovalNextMessage: React.FC<ApprovalNextMessageProps> = ({ code, type }) => {
+  const { onMessageLoad } = useContext(MessageItemContext)
   const [loading, setLoading] = useState(true)
   const [detail, setDetail] = useState<RawApprovalDetail | null>(null)
 
@@ -37,8 +39,9 @@ const ApprovalNextMessage: React.FC<ApprovalNextMessageProps> = ({ code, type })
       error("审批详情加载失败")
     } finally {
       setLoading(false)
+      onMessageLoad()
     }
-  }, [type, code])
+  }, [type, code, onMessageLoad])
 
   useEffect(() => {
     fetchDetail()
@@ -53,7 +56,7 @@ const ApprovalNextMessage: React.FC<ApprovalNextMessageProps> = ({ code, type })
       : error("暂时无法查看审批明细，请前往审批列表查看")
   }, [code, type])
 
-  if (loading) return <Loader />
+  if (loading) return <Loader version={2} />
 
   if (!detail) return <span>审批信息加载失败</span>
 

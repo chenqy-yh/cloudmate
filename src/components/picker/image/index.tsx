@@ -1,8 +1,8 @@
+import Icon from "@/components/icon"
 import { Image } from "@tarojs/components"
 import Taro from "@tarojs/taro"
 import { FC } from "react"
 import styles from "./index.module.scss"
-import Icon from "../icon"
 
 interface FileItem {
   path: string

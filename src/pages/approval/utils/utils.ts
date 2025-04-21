@@ -1,5 +1,5 @@
 import { uploadAttchment } from '@/apis/approval';
-import { File } from '@/components/image-picker';
+import { File } from '@/components/picker/image';
 import { makeErrorMsg } from '@/utils/error';
 import { FormState } from "../components/dynamc-form";
 import { dayTransfer } from "../components/picker/date/utils";

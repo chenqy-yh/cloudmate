@@ -7,8 +7,9 @@ import { ApprovalEntity, ApprovalType } from "@/pages/approval/types"
 import { error } from "@/utils/common"
 import { getFormattedDate } from "@/utils/date"
 import Taro from "@tarojs/taro"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 import styles from "./index.module.scss"
+import { MessageItemContext } from "../../../context"
 
 type ApprovalDoneMessageProps = {
   type: ApprovalType
@@ -16,6 +17,7 @@ type ApprovalDoneMessageProps = {
 }
 
 const ApprovalDoneMessage: React.FC<ApprovalDoneMessageProps> = ({ code, type }) => {
+  const { onMessageLoad } = useContext(MessageItemContext)
   const [loading, setLoading] = useState(true)
   const [approval, setApproval] = useState<ApprovalEntity | null>(null)
 
@@ -29,8 +31,9 @@ const ApprovalDoneMessage: React.FC<ApprovalDoneMessageProps> = ({ code, type })
       error("审批信息加载失败")
     } finally {
       setLoading(false)
+      onMessageLoad()
     }
-  }, [code])
+  }, [code, onMessageLoad])
 
   useEffect(() => {
     fetchApproval()
@@ -45,7 +48,7 @@ const ApprovalDoneMessage: React.FC<ApprovalDoneMessageProps> = ({ code, type })
       : error("暂时无法查看审批明细，请前往审批列表查看")
   }, [code, type])
 
-  if (loading) return <Loader />
+  if (loading) return <Loader version={2} />
   if (!approval) return <span>审批信息加载失败</span>
 
   return (

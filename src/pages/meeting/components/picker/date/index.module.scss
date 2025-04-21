@@ -1,0 +1,188 @@
+// ------------------- index -----------------------
+.date_picker {
+  display: grid;
+  grid-template-columns: 30px 1fr 30px;
+  box-sizing: border-box;
+  padding-block: 10px;
+
+  .star {
+    justify-self: center;
+    grid-column: 1/2;
+    color: red;
+  }
+
+  .date_picker_bar {
+    grid-column: 2/3;
+
+    display: grid;
+    grid-template-columns: 1fr max-content max-content;
+    grid-template-rows: max-content max-content;
+    gap: 10px;
+
+    font-size: 32px;
+
+    .title {
+      grid-column: 1/4;
+      grid-row: 1/2;
+    }
+
+    .choose_day {
+      grid-column: 1/2;
+      grid-row: 2/3;
+    }
+
+    .placeholder {
+      grid-column: 1/2;
+      grid-row: 2/3;
+      color: #cccccc;
+    }
+
+    .clear {
+      grid-column: 2/3;
+      grid-row: 2/3;
+    }
+    .arrow {
+      grid-column: 3/4;
+      grid-row: 2/3;
+    }
+  }
+}
+
+// ------------------- picker-selector -----------------------
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 5px solid #f0f0f0;
+}
+
+.confirm {
+  color: #2973ff;
+  padding: 20px;
+}
+
+// ------------------- segmented-control -----------------------
+
+.segmented_control {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  .segmented_item {
+    padding: 20px;
+    font-size: 32px;
+    color: #aaaaaa;
+    &.active {
+      font-weight: bold;
+      color: #666666;
+      border-bottom: 5px solid #666666;
+    }
+  }
+}
+
+.selector_content {
+  height: 35vh;
+  padding-inline: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// ------------------- select-date -----------------------
+.select_date {
+  &_body {
+    width: 100%;
+  }
+  &_item {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    justify-self: center;
+    align-self: center;
+  }
+  &_header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+  &_week {
+    font-size: 22px;
+  }
+
+  &_swiper {
+    height: 30vh;
+    transition: all 0.3s ease;
+  }
+
+  &_content {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    height: 100%;
+  }
+
+  &_day {
+    &.week_0 {
+      grid-column: 1/2;
+    }
+    &.week_1 {
+      grid-column: 2/3;
+    }
+    &.week_2 {
+      grid-column: 3/4;
+    }
+    &.week_3 {
+      grid-column: 4/5;
+    }
+    &.week_4 {
+      grid-column: 5/6;
+    }
+    &.week_5 {
+      grid-column: 6/7;
+    }
+    &.week_6 {
+      grid-column: 7/8;
+    }
+    &.first_day {
+      color: #2973ff;
+    }
+    &.selected {
+      background-color: #616161;
+      color: white;
+    }
+    &.not_this_month {
+      color: #cccccc;
+    }
+    &.last_day {
+      color: #2973ff;
+      background-color: #ebf1ff;
+    }
+  }
+}
+
+// ------------------- select-time -----------------------
+.select_time {
+  &_body {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  &_hour_list,
+  &_minute_list {
+    height: 24vh;
+    width: 100px;
+  }
+
+  &_item,
+  &_item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    color: #cccccc;
+    &.active {
+      color: black;
+    }
+  }
+}

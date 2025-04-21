@@ -5,7 +5,7 @@ type EventType = 'send_message' | 'message'
 
 type MessageType = 'text' | 'image' | 'notification'
 
-type NotifyType = 'approval:init' | 'approval:next' | 'approval:done'
+type NotifyType = 'approval:init' | 'approval:next' | 'approval:done' | 'meeting:create'
 
 type QueryOptions = {
   direction: 'forward' | 'backward';

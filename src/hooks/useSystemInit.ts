@@ -1,7 +1,7 @@
 import { getContacts } from "@/apis/contacts";
 import { getUserInfo } from "@/apis/user";
 import { Client, registerEventHandler } from "@/socket";
-import { addMessageToContactHistory, setContacts } from '@/store/reducers/contacts';
+import { addMessageToContactHistory, addUnreadCount, setContacts } from '@/store/reducers/contacts';
 import { setUserInfo } from '@/store/reducers/user';
 import { error } from "@/utils/common";
 import { useEffect } from "react";
@@ -11,17 +11,10 @@ export const useSystemInit = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    registerEventHandler("message", handleReceiveMessage)
-    return () => {
-      Client.unregisterHandler("message", handleReceiveMessage)
-    }
-  }, [])
-
-
   const handleReceiveMessage = (message: PrivateMessageItem) => {
     const { sender } = message;
     dispatch(addMessageToContactHistory({ message, contact_uuid: sender }))
+    dispatch(addUnreadCount({ contact_id: sender }));
   }
 
   useEffect(() => {
@@ -29,6 +22,7 @@ export const useSystemInit = () => {
       Client.connect()
       initUserInfo();
       initContacts();
+      registerAllHandlers();
     }
     init();
   }, []);
@@ -52,6 +46,10 @@ export const useSystemInit = () => {
       error('获取联系人失败');
       console.error(err);
     }
+  }
+
+  const registerAllHandlers = () => {
+    registerEventHandler("message", handleReceiveMessage)
   }
 
 

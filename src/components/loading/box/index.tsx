@@ -16,9 +16,17 @@ const LoadingBox: React.FC<LoadingBoxProps> = (props) => {
 
   const cls = classNames(styles.loading_box, className)
 
+  if (load) {
+    return (
+      <div className={cls} {...rest}>
+        <div className={styles.loading_view}>{loader}</div>
+      </div>
+    )
+  }
+
   return (
     <div className={cls} {...rest}>
-      {load ? <div className={styles.loading_view}>{loader}</div> : children}
+      {children}
     </div>
   )
 }

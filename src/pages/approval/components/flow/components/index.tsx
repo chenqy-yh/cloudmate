@@ -97,7 +97,7 @@ const PartPicker: React.FC<PartPickerProps> = ({
       return (
         <EditPage
           title="审批人"
-          desc={`${selected_parts.length}依次审批`}
+          desc={`${selected_parts.length}人依次审批`}
           separator={<Icon icon="arrow-right-2" size={30} />}
           onBack={() => setActiveIndex(ActiveIndex.MAIN)}
           selected_parts={selected_parts}

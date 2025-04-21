@@ -1,0 +1,11 @@
+.body {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  box-sizing: border-box;
+  padding-block: 10px;
+
+  .star {
+    justify-self: center;
+    color: red;
+  }
+}

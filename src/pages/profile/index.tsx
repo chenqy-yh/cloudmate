@@ -9,13 +9,13 @@ const Features = () => {
     {
       icon: "feat-approval",
       title: "审批",
-      desc: "7条申请待审批",
+      desc: "快速流转审批",
       path: "/approval",
     },
     {
       icon: "feat-atd",
       title: "考勤",
-      desc: "今日打卡正常",
+      desc: "坚持每日打卡",
     },
     {
       icon: "feat-ops",
@@ -24,8 +24,9 @@ const Features = () => {
     },
     {
       icon: "feat-schedule",
-      title: "日程",
-      desc: "每日安排计划",
+      title: "会议",
+      desc: "每日会议安排",
+      path: "/meeting",
     },
   ]
 

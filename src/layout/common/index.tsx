@@ -4,13 +4,20 @@ import classNames from "classnames"
 import { useNavigate } from "react-router-dom"
 import styles from "./index.module.scss"
 
+type Title =
+  | string
+  | {
+      placement: "left" | "center"
+      content: string
+    }
+
 type CommonLayoutProps = {
-  title: string
+  title: Title
   attachment?: React.ReactNode
   back?: boolean
   children?: React.ReactNode
   onBack?: () => void
-} & React.HTMLAttributes<HTMLDivElement>
+} & Omit<React.HTMLAttributes<HTMLDivElement>, "title">
 
 const CommonLayout: React.FC<CommonLayoutProps> = (props) => {
   const { children, title, back, className, attachment, onBack, ...rest } = props
@@ -32,7 +39,9 @@ const CommonLayout: React.FC<CommonLayoutProps> = (props) => {
           })}
         >
           {back && <Icon icon="back" size={30} onClick={handleBack} />}
-          <div className={styles.title}>{title}</div>
+          <div className={classNames(styles.title, { [styles[typeof title === "string" ? "left" : title.placement]]: true })}>
+            {typeof title === "string" ? title : title.content}
+          </div>
         </div>
         {attachment && <div className={styles.attachment}>{attachment}</div>}
       </Header>

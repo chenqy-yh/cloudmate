@@ -1,0 +1,60 @@
+.picker {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  box-sizing: border-box;
+  padding-block: 10px;
+
+  .star {
+    color: red;
+    justify-self: center;
+    grid-column: 1/2;
+  }
+
+  .select_bar {
+    grid-column: 2/3;
+
+    display: grid;
+    grid-template-columns: 1fr max-content max-content;
+    grid-template-rows: max-content max-content;
+    gap: 10px;
+
+    font-size: 32px;
+
+    .title {
+      grid-column: 1/4;
+      grid-row: 1/2;
+    }
+
+    .select_item_label {
+      grid-column: 1/2;
+      grid-row: 2/3;
+    }
+
+    .placeholder {
+      grid-column: 1/2;
+      grid-row: 2/3;
+      color: #cccccc;
+    }
+
+    .clear {
+      grid-column: 2/3;
+      grid-row: 2/3;
+    }
+    .arrow {
+      grid-column: 3/4;
+      grid-row: 2/3;
+    }
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  .list_item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-block: 20px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+}

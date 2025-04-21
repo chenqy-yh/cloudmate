@@ -3,16 +3,16 @@ import Header from "@/components/header"
 import Icon from "@/components/icon"
 import Loader from "@/components/loading/icon"
 import { useLoadRequest } from "@/hooks/useLoadRequest"
-import { RootState } from "@/store"
 import { loadContactHistory } from "@/store/reducers/contacts"
 import { selectContactHistory, selectCurrentContact, selectHasLoadContactHistory } from "@/store/selectors/contacts"
 import { userInfoSelector } from "@/store/selectors/user"
 import { getFormattedDate } from "@/utils/date"
 import { ScrollView } from "@tarojs/components"
 import classNames from "classnames"
-import { useContext, useEffect, useRef } from "react"
+import { useContext, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import useDebouncedCallback from "@/hooks/useDebounceCallback"
 import ChatComposer from "../../components/chat-composer"
 import MessageItem from "../../components/message-item"
 import { ChatContext } from "../../context"
@@ -30,15 +30,17 @@ const DATE_FORMAT = "MM-DD HH:mm:ss"
 
 function MainContent() {
   const { setShowDrawer, focus_msg_id, setFocusMsgId } = useContext(ChatContext)
+
   const dispatch = useDispatch()
+
+  const navigate = useNavigate()
+
   const sender_info = useSelector(userInfoSelector)!
   const receiver_info = useSelector(selectCurrentContact)!
   const messages = useSelector(selectContactHistory(receiver_info.uuid))
-  const has_load_history = useSelector((state: RootState) => selectHasLoadContactHistory(state, receiver_info.uuid))
+  const has_load_history = useSelector(selectHasLoadContactHistory(receiver_info.uuid))
 
   const { load, send } = useLoadRequest()
-
-  const navigate = useNavigate()
 
   const handleBack = () => {
     navigate(-1)
@@ -50,15 +52,18 @@ function MainContent() {
   }
 
   // 滚动到最底部
-  const scrollMsgListToBottom = () => {
-    const targetId = genMsgId(messages.length - 1)
-    console.log("scrollMsgListToBottom", targetId)
-    setFocusMsgId(targetId)
-  }
 
-  useEffect(() => {
-    console.log("focus_msg_id change:", focus_msg_id)
-  }, [focus_msg_id])
+  const debounceScrollMsgListToBottom = useDebouncedCallback(() => {
+    console.log("scrollMsgListToBottom")
+    const targetId = genMsgId(messages.length - 1)
+    setFocusMsgId(() => "")
+    setFocusMsgId(() => targetId)
+  }, 300)
+
+  const handleMessageLoad = () => {
+    console.log("handleMessageLoad")
+    debounceScrollMsgListToBottom()
+  }
 
   useEffect(() => {
     if (has_load_history) return
@@ -74,11 +79,11 @@ function MainContent() {
     })
   }, [])
 
-  // useEffect(() => {
-  //   if (messages && messages.length > 0) {
-  //     scrollMsgListToBottom()
-  //   }
-  // }, [messages])
+  useEffect(() => {
+    if (messages && messages.length > 0) {
+      debounceScrollMsgListToBottom()
+    }
+  }, [debounceScrollMsgListToBottom, messages])
 
   const renderMessageList = () => {
     if (!Array.isArray(messages)) return null
@@ -100,7 +105,13 @@ function MainContent() {
               [styles[msg.from_me ? "sender" : "receiver"]]: true,
             })}
           >
-            <MessageItem from_me={msg.from_me} type={msg.type} content={msg.content} user_info={msg.from_me ? sender_info : receiver_info} />
+            <MessageItem
+              from_me={msg.from_me}
+              type={msg.type}
+              content={msg.content}
+              user_info={msg.from_me ? sender_info : receiver_info}
+              onMessageLoad={handleMessageLoad}
+            />
           </div>
         </>
       )

@@ -11,6 +11,11 @@ export type MonthInfo = {
   year: number;
 };
 
+export const getAmPm = (date: Date | string, format = { am: 'AM', pm: 'PM' }): string => {
+  const hours = new Date(date).getHours();
+  return hours < 12 ? format.am : format.pm;
+}
+
 /**
  * @description 格式化时间
  * format YYYY MM DD HH mm ss
@@ -41,16 +46,19 @@ export const createDay = (date: Date): DayInfo => ({
 });
 
 
-export const getMonthInfo = ({ month, year }): MonthInfo => {
+export const getMonthInfo = ({ month, year, pre = true, after = true }): MonthInfo => {
   const days: DayInfo[] = [];
   const first_day = new Date(year, month - 1, 1);
   const last_day = new Date(year, month, 0);
 
   // 计算前置填充天数（上个月的末尾几天）
-  for (let i = first_day.getDay(); i > 0; i--) {
-    const date = new Date(year, month - 1, 1 - i);
-    days.push(createDay(date));
+  if (pre) {
+    for (let i = first_day.getDay(); i > 0; i--) {
+      const date = new Date(year, month - 1, 1 - i);
+      days.push(createDay(date));
+    }
   }
+
 
   // 当前月的所有天数
   for (let i = 1; i <= last_day.getDate(); i++) {
@@ -58,11 +66,15 @@ export const getMonthInfo = ({ month, year }): MonthInfo => {
     days.push(createDay(date));
   }
 
-  // 计算后置填充天数（下个月的前几天）
-  for (let i = days.length; i < 42; i++) {
-    const date = new Date(year, month - 1, last_day.getDate() + i);
-    days.push(createDay(date));
+
+  if (after) {
+    // 计算后置填充天数（下个月的前几天）
+    for (let i = days.length; i < 42; i++) {
+      const date = new Date(year, month - 1, last_day.getDate() + i);
+      days.push(createDay(date));
+    }
   }
+
 
   return {
     days,
